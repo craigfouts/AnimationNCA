@@ -150,6 +150,7 @@ class Viewer:
 
 # model = torch.load('animation_nca_5000.pt')
 model = torch.load('3_animation_nca_5000.pt', map_location=torch.device('cpu'))
+# model = torch.load('4_animation_nca_10000.pt', map_location=torch.device('cpu'))
 
 def update(x, i):
     # img = to_rgb(green_target)[0].permute(1, 2, 0).cpu().numpy() * 255.0

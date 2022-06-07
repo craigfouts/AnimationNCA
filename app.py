@@ -6,8 +6,8 @@ import numpy as np
 import torch.nn.functional as F
 import pygame
 
-torch.set_default_tensor_type('torch.cuda.FloatTensor')
-torch.backends.cudnn.benchmark = True
+# torch.set_default_tensor_type('torch.cuda.FloatTensor')
+# torch.backends.cudnn.benchmark = True
 
 def imread(url, max_size=None, mode=None):
   if url.startswith(('http:', 'https:')):
@@ -141,8 +141,7 @@ class Viewer:
                         if event.key == pygame.K_r:
                             self.x = torch.clone(green_target)
                 Z, self.x = self.update_f(self.x, i)
-                bytes = Z.flatten()
-                surf = pygame.image.frombuffer(bytes, self.sz, 'RGBA')
+                surf = pygame.image.frombuffer(Z, self.sz, 'RGBA')
                 # surf = pygame.surfarray.make_surface(Z)
                 self.display.blit(surf, (0, 0))
                 pygame.display.flip()
@@ -150,13 +149,13 @@ class Viewer:
         pygame.quit()
 
 # model = torch.load('animation_nca_5000.pt')
-model = torch.load('3_animation_nca_5000.pt')
+model = torch.load('3_animation_nca_5000.pt', map_location=torch.device('cpu'))
 
 def update(x, i):
     # img = to_rgb(green_target)[0].permute(1, 2, 0).cpu().numpy() * 255.0
     img = zoom(x[0, :4].permute(1, 2, 0).cpu().numpy(), 6)
     img[img[:, :, -1] > 0.1] *= 255.0
-    if i % 2 == 0:
+    if i % 1 == 0:
         x = model(x)
     return img.astype('uint8'), x
 

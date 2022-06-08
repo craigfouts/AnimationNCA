@@ -127,7 +127,7 @@ class Viewer:
             wait_time = 100
             i = 0
             while running:
-                # self.display.fill((0, 0, 0))
+                self.display.fill((0, 0, 0))
                 current_time = pygame.time.get_ticks()
                 if current_time - start_time < wait_time:
                     start_time = current_time
